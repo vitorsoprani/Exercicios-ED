@@ -2,7 +2,7 @@
 //  matriz.c
 //  TADMatriz
 //
-//  Created by Vitor Soprani Passamani on 14/05/2025.
+//  Created by Vitor Soprani Passamani on 18/05/2025.
 //
 
 #include <stdlib.h>
@@ -14,7 +14,7 @@ struct matriz{
     int nLinhas;
     int nColunas;
 
-    int** elementos;
+    int* elementos;
 };
 
 /*Inicializa uma matriz de nlinhas e ncolunas
@@ -30,13 +30,8 @@ Matriz* inicializaMatriz (int nlinhas, int ncolunas) {
     m->nLinhas = nlinhas;
     m->nColunas = ncolunas;
 
-    m->elementos = (int**)malloc(sizeof(int*) * nlinhas * ncolunas);
+    m->elementos = (int*)malloc(sizeof(int) * nlinhas * ncolunas);
     assert(m->elementos != NULL);
-
-    for (int i = 0; i < nlinhas; i++) {
-        m->elementos[i] = (int*)malloc(sizeof(int) * ncolunas);
-        assert(m->elementos[i] != NULL);
-    }
 
     return m;
 }
@@ -54,7 +49,7 @@ void modificaElemento (Matriz* mat, int linha, int coluna, int elem) {
     assert(linha < recuperaNLinhas(mat));
     assert(coluna < recuperaNColunas(mat));
 
-    mat->elementos[linha][coluna] = elem;
+    mat->elementos[recuperaNColunas(mat) * linha + coluna] = elem;
 }
 
 /*Retorna o elemento mat[linha][coluna]
@@ -70,7 +65,7 @@ int recuperaElemento(Matriz* mat, int linha, int coluna) {
     assert(linha < recuperaNLinhas(mat));
     assert(coluna < recuperaNColunas(mat));
 
-    return mat->elementos[linha][coluna];
+    return mat->elementos[recuperaNColunas(mat) * linha + coluna];
 }
 
 /*Retorna o numero de colunas da matriz mat
@@ -184,8 +179,6 @@ void imprimeLinha (Matriz* mat, int indice) {
  */
 void destroiMatriz (Matriz* mat) {
     if (mat != NULL) {
-        for (int i = 0; i < recuperaNLinhas(mat); i++)
-            free(mat->elementos[i]);
         free(mat->elementos);
         free(mat);
     }
