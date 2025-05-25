@@ -19,6 +19,7 @@ int main() {
         printf("3 - Inserir produto no inicio da lista;\n");
         printf("4 - Inserir produto no final da lista;\n");
         printf("5 - Listar lista;\n");
+        printf("6 - Remover produto da lista\n");
         printf("0 - Sair.\n");
         printf("Operacao: ");
 
@@ -66,8 +67,38 @@ int main() {
                 printf("Produto não cadastrado\n");
         } else if (opt == 5) {
             lista_Imprime(lista);
+        } else if (opt == 6) {
+            printf("Voce deseja buscar o produto por:\n");
+            printf("1 - Nome\n");
+            printf("2 - Codigo\n");
+            printf("Opcao: ");
+
+            scanf("%d%*c", &opt);
+
+            Produto* p = NULL;
+            if (opt == 1) {
+                char nome[100];
+                scanf("%99[^\n]%*c", nome);
+
+                p = lista_Remove(lista, nome, prod_ComparaPorNome);
+            } else if (opt == 2) {
+                int codigo;
+                scanf("%d%*c", &codigo);
+
+                p = lista_Remove(lista, &codigo, prod_ComparaPorCodigo);
+            }
+
+            if (p == NULL) {
+                printf("Produto nao encontrado na lista.\n");
+                continue;
+            }
+
+            printf("Produto removido:\n");
+            prod_Imprime(p);
         }
     }
+
+    lista_Destroi(lista);
 
     for (int i = 0; i < qtdProdutos; i++)
         prod_Destroi(produtos[i]);
@@ -79,8 +110,11 @@ Produto* LeProduto() {
     float preco = 0;
     char nome[100];
 
+    printf("Codigo: ");
     scanf("%d%*c", &codigo);
+    printf("Nome: ");
     scanf("%100[^\n]%*c", nome);
+    printf("Preco: ");
     scanf("%f%*c", &preco);
 
     return prod_Cria(codigo, nome, preco);

@@ -60,13 +60,46 @@ void lista_InsereNoFinal(Lista* l, Produto* p) {
         l->prim = c;
     } else {
         l->ult->prox = c;
+        l->ult = c;
     }
 }
 
 Produto* lista_Remove(Lista* l, void* chave, int(*compara) (Produto*, void*)) {
+    assert(l != NULL);
+    assert(chave != NULL);
 
+    Celula* ant = NULL;
+    Celula* atual = l->prim;
+
+    Produto* p = NULL;
+
+    while(atual != NULL && !compara(atual->produto, chave)) {
+        ant = atual;
+        atual = atual->prox;
+    }
+
+    if (l->prim == NULL) //Lista vazia;
+        return NULL;
+    
+    if (atual == NULL) //Produto não está na lista;
+        return NULL;
+    
+    if (l->prim == l->ult) { //Produto é o único na lista;
+        l->prim = l->ult = NULL;
+    } else if (l->prim == atual) { //Produto é o primeiro na lista;
+        l->prim = atual->prox;
+    } else if (l->ult == atual) { //Produto é o ultimo na lista;
+        l->ult = ant;
+        ant->prox = atual->prox;
+    } else { //Produto é um elemento qualquer na lista;
+        ant->prox = atual->prox;
+    }
+
+    p = atual->produto;
+    free(atual);
+    
+    return p;
 }
-
 void lista_Imprime(Lista* l) {
     printf("Produtos na lista: \n");
     for (Celula* c = l->prim; c != NULL; c = c->prox)
@@ -74,5 +107,17 @@ void lista_Imprime(Lista* l) {
 }
 
 void lista_Destroi(Lista* l) {
-    
+    assert(l != NULL);
+
+    Celula* c = l->prim;
+    Celula* prox = NULL;
+
+    while (c != NULL) {
+        prox = c->prox;
+        free(c);
+
+        c = prox;
+    }
+
+    free(l);
 }
