@@ -64,23 +64,22 @@ Lista* lista_Busca(Lista* l, void* chave, int(*compara) (Produto*, void*)) {
 Produto* lista_Remove(Lista** l, void* chave, int(*compara) (Produto*, void*)) {
     assert(l != NULL);
 
-    Lista* aux = lista_Busca(*l, chave, compara);
+    Lista* aux = NULL;
     Produto* p = NULL;
+    
+    while ((aux = lista_Busca(*l, chave, compara)) != NULL) {
+        if (aux == *l)
+            *l = (*l)->prox;
+        else
+            aux->ant->prox = aux->prox;
+        
+        if (aux->prox != NULL)
+            aux->prox->ant = aux->ant;
+        
+        p = aux->produto;
 
-    if (aux == NULL)
-        return NULL;
-    
-    if (aux == *l)
-        *l = (*l)->prox;
-    else
-        aux->ant->prox = aux->prox;
-    
-    if (aux->prox != NULL)
-        aux->prox->ant = aux->ant;
-    
-    p = aux->produto;
-
-    free(aux);
+        free(aux);
+    }
 
     return p;
 }
