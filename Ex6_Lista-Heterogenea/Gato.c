@@ -43,3 +43,13 @@ void imprimeGato(void* g) {
 
     printf("Gato: %s\n", ((Gato*)g)->nome);
 }
+
+int comparaGato(void* gato, void* nome) {
+    return strcmp(((Gato*)gato)->nome, (char*)nome) == 0;
+}
+
+char* getNomeGato(Gato* g) {
+    assert(g);
+
+    return g->nome;
+}

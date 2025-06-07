@@ -42,3 +42,14 @@ void imprimeCachorro(void* c) {
     assert(c);
     printf("Cachorro: %s\n", ((Cachorro*)c)->nome);
 }
+
+
+int comparaCachorro(void* cachorro, void* nome) {
+    return strcmp(((Cachorro*)cachorro)->nome, (char*)nome) == 0;
+}
+
+char* getNomeCachorro(Cachorro* c) {
+    assert(c);
+
+    return c->nome;
+}

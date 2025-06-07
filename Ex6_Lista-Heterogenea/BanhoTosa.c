@@ -48,9 +48,9 @@ void cadastraCachorro(BanhoTosa* loja, Cachorro* dog) {
     assert(dog);
 
     if (getPersonalidadeCachorro(dog) == MANSO) {
-        list_Insert(loja->mansos, (void*)dog, imprimeCachorro);
+        list_Insert(loja->mansos, (void*)dog, imprimeCachorro, "cachorro");
     } else {
-        list_Insert(loja->bravos, (void*)dog, imprimeCachorro);
+        list_Insert(loja->bravos, (void*)dog, imprimeCachorro, "cachorro");
     }
 }
 
@@ -64,9 +64,9 @@ void cadastraGato(BanhoTosa* loja, Gato* cat) {
     assert(cat);
 
     if (getPersonalidadeGato(cat) == MANSO) {
-        list_Insert(loja->mansos, cat, imprimeGato);
+        list_Insert(loja->mansos, cat, imprimeGato, "gato");
     } else {
-        list_Insert(loja->bravos, cat, imprimeGato);
+        list_Insert(loja->bravos, cat, imprimeGato, "gato");
     }
 }
 
@@ -76,14 +76,36 @@ void cadastraGato(BanhoTosa* loja, Gato* cat) {
 * output: nenhum
 * pre-condicao: loja alocada e animal alocado
 * pos-condicao: animal deve estar na lista correta, de acordo com seu nível de agressividade */
-void atualizaSituacaoGato(BanhoTosa* loja, Gato* cat);
+void atualizaSituacaoGato(BanhoTosa* loja, Gato* cat) {
+    assert(loja);
+    assert(cat);
+
+    Cell* c;
+
+    if ((c = list_Remove(loja->mansos, comparaGato, "gato", getNomeGato(cat)))) {
+        list_Insert(loja->bravos, cat, imprimeGato, "gato");
+    } else if ((c = list_Remove(loja->bravos, comparaGato, "gato", getNomeGato(cat)))) {
+        list_Insert(loja->mansos, cat, imprimeGato, "gato");
+    }
+}
 
 /* Essa função atualiza a situação de um cachorro na loja. Caso ele esteja na lista errada, ele é devidamente MOVIDO para a lista correta.
 * inputs: referência para a loja e a referência para o animal
 * output: nenhum
 * pre-condicao: loja alocada e animal alocado
 * pos-condicao: animal deve estar na lista correta, de acordo com seu nível de agressividade */
-void atualizaSituacaoCachorro(BanhoTosa* loja, Cachorro* dog);
+void atualizaSituacaoCachorro(BanhoTosa* loja, Cachorro* dog) {
+    assert(loja);
+    assert(dog);
+
+    Cell* c;
+
+    if ((c = list_Remove(loja->mansos, comparaCachorro, "cachorro", getNomeCachorro(dog)))) {
+        list_Insert(loja->bravos, dog, imprimeCachorro, "cachorro");
+    } else if ((c = list_Remove(loja->bravos, comparaGato, "cachorro", getNomeCachorro(dog)))) {
+        list_Insert(loja->mansos, dog, imprimeCachorro, "cachorro");
+    }
+}
 
 
 /* Imprime os dados da Loja (nome, e conteúdo das listas)
@@ -109,7 +131,36 @@ void imprimeBanhoTosa(BanhoTosa* loja) {
 * pre-condicao: loja alocada
 * pos-condicao: nenhuma alteração feita nos conteúdos das estruturas de dados */
 float calculaReceita(BanhoTosa* loja) {
-    return 2;
+    assert(loja);
+
+    float receita = 0;
+    // Contabilizando bichos mansos:
+    Cell* c = list_GetCellByIndex(loja->mansos, 0);
+
+    while(c != NULL) {
+        if (strcmp(cell_GetType(c), "gato") == 0){
+            receita += 30;
+        } else {
+            receita += 40;
+        }
+
+        c = cell_GetNext(c);
+    }
+
+    //Contabilizando bichos bravos:
+    c = list_GetCellByIndex(loja->bravos, 0);
+    
+    while(c != NULL) {
+        if (strcmp(cell_GetType(c), "gato") == 0){
+            receita += 35;
+        } else {
+            receita += 45;
+        }
+
+        c = cell_GetNext(c);
+    }
+
+    return receita;
 }
 
 

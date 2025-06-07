@@ -13,4 +13,8 @@ enum Personalidade getPersonalidadeCachorro(Cachorro* c);
 
 void imprimeCachorro(void* c);
 
+int comparaCachorro(void* cachorro, void* nome);
+
+char* getNomeCachorro(Cachorro* c);
+
 #endif

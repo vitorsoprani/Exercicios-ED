@@ -10,7 +10,6 @@
 #include <stdio.h>
 #include "BanhoTosa.h"
 
-/*
 int main(int argc, const char * argv[]) {
 
     //cadastra uns cachorrinhos e gatinhos
@@ -68,4 +67,3 @@ int main(int argc, const char * argv[]) {
 
     return 0;
 }
-*/
