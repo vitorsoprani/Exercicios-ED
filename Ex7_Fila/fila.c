@@ -79,20 +79,24 @@ void fila_InserePrioritario(Fila* f, Amostra* a) {
 
 Amostra* fila_Remove(Fila* f) {
     assert(f);
+    Celula* c;
     Amostra* a;
 
     // Fila vazia
     if (f->prim == NULL)
         return NULL;
     
-    a = f->prim->amostra;
+    c = f->prim;
+    a = c->amostra;
     
     // Unico elemento na fila
     if (f->prim == f->ult)
         f->prim = f->ult = NULL;
     else
         f->prim = f->prim->prox;
-    
+        
+    free(c);
+
     return a;
 }
 
