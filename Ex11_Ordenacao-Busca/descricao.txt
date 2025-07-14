@@ -1,0 +1,7 @@
+Implemente as funções de ordenação bolha (bubble sort), ordenação rápida (quick sort), busca linear (linear search) e busca binária (binary search).
+
+Desenvolva um programa, com os seguintes passos:
+
+1) Inicie um vetor grande (e.x., 100 mil elementos numéricos ou mais...) desordenado (aleatório);
+2) Teste ordenar o vetor usando as funções de ordenação bolha e ordenação rápida (quick sort); Nota-se diferença?
+3) Teste os algoritmos de busca estudados. Nota-se diferença?
