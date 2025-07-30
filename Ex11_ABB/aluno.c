@@ -5,6 +5,7 @@
 //
 
 #include "aluno.h"
+#include <assert.h>
 
 struct aluno{
     char* nome;
@@ -23,8 +24,10 @@ int retornaMatriculaAluno(Aluno* aluno){
 }
 
 void imprimeAluno(Aluno* aluno){
-    printf("{%s;", aluno->nome);
-    printf("%d}", aluno->matricula);
+    if (aluno == NULL)
+        printf("{-;-}");
+    else
+        printf("{%s;%d}", aluno->nome, aluno->matricula);
 }
 
 void liberaAluno(Aluno* aluno){
@@ -35,5 +38,7 @@ void liberaAluno(Aluno* aluno){
 }
 
 int comparaAluno(Aluno* a1, Aluno* a2) {
+    assert(a1 != NULL);
+    assert(a2 != NULL);
     return a1->matricula - a2->matricula;
 }

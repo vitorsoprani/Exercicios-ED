@@ -28,14 +28,21 @@ Arv* arv_Insere(Arv* r, Aluno* a);
 void arv_Imprime(Arv* r);
 
 /**
+ * @brief Imprime os alunos em ordem cresente na notação de lista
+ * 
+ * @param r a raiz da árvore a ser impressa
+ */
+void arv_ImprimeOrdenada(Arv* r);
+
+/**
  * @brief Busca o aluno na árvore.
  * 
  * @param r A arvore (raíz) na qual o aluno será buscado.
  * @param mat A matrícula do aluno.
  * 
- * @return A subárvore contendo o aluno na raiz, ou NULL caso o aluno não esteja na árvore.
+ * @return O alno ou NULL.
  */
-Arv* arv_BuscaAluno(Arv* r, int mat);
+Aluno* arv_BuscaAluno(Arv* r, int mat);
 
 /**
  * @brief Remove o aluno da árvore.
